@@ -26,9 +26,9 @@ const SideBar = () => (
                 <NavLink activeClassName='active' className='link nav_link' to='/users' >
                     <p>Users</p>
                 </NavLink>
-                <NavLink activeClassName='active' className='link nav_link' to='/jobs' >
+                {/* <NavLink activeClassName='active' className='link nav_link' to='/jobs' >
                     <p>Jobs</p>
-                </NavLink>
+                </NavLink> */}
             </div>
             <div className='teams-tabs'>
                 <p className='title fc-light'>TEAMS</p>

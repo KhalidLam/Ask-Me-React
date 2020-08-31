@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 // import { connect } from "react-redux";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 // import { logout } from "../../redux/auth/auth.actions";
 
 import { ReactComponent as Logo } from "../../assets/LogoMd.svg";
@@ -10,7 +10,10 @@ import { ReactComponent as Search } from "../../assets/Search.svg";
 import "./header.styles.scss";
 
 // { auth: { isAuthenticated, loading }, logout }
-const Header = () => {
+const Header = ({ isAuthenticated, loading, logout }) => {
+  loading = false;
+  isAuthenticated = false;
+
   const authLinks = (
     <div className='btns'>
       <Link onClick={() => console.log("logout")} to='/login'>
@@ -63,10 +66,9 @@ const Header = () => {
       <Link className='navbar-brand' to='/'>
         <Logo />
       </Link>
-      {/* {!loading && (
+      {!loading && (
         <Fragment>{isAuthenticated ? authTabs : guestTabs}</Fragment>
-      )} */}
-      {authTabs}
+      )}
       <form
         id='search'
         role='search'
@@ -85,18 +87,17 @@ const Header = () => {
           <Search />
         </div>
       </form>
-      {/* {!loading && (
+      {!loading && (
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
-      )} */}
-      {authLinks}
+      )}
     </nav>
   );
 };
 
-Header.propTypes = {
-  logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-};
+// Header.propTypes = {
+//   logout: PropTypes.func.isRequired,
+//   auth: PropTypes.object.isRequired,
+// };
 
 // const mapStateToProps = (state) => ({
 //   auth: state.auth,

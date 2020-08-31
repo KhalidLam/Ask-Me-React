@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 // import { connect } from 'react-redux';
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+// import PropTypes from "prop-types";
 // import { getTags } from '../../redux/tags/tags.actions';
+import { Link } from "react-router-dom";
 
 import { ReactComponent as Stackoverflow } from "../../assets/LogoGlyphXxs.svg";
 import { ReactComponent as Stackoverflowhite } from "../../assets/LogoGlyphXxswhite.svg";
@@ -205,7 +205,7 @@ const RightSideBar = ({
       </div>
       <div className='side-bar-tags'>
         <h4 className='tag-headline'>Top Ten Tags</h4>
-        {/* {tags.slice(0, 10).map((tag) => (
+        {tags.slice(0, 10).map((tag) => (
           <div key={tag.tagname} className='tag-content'>
             <a className='s-tag s-tag__md' href={`/tags/${tag.tagname}`}>
               {tag.tagname}
@@ -217,7 +217,7 @@ const RightSideBar = ({
               <span>{tag.posts_count}</span>
             </span>
           </div>
-        ))} */}
+        ))}
         <Link className='show-tags' to='/tags'>
           show more tags
         </Link>
