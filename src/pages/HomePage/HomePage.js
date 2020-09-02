@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 // import { connect } from 'react-redux';
 // import PropTypes from "prop-types";
@@ -9,8 +9,15 @@ import PostItem from "../../components/PostItem/PostItem";
 import RightSideBar from "../../components/right-sideBar/right-sideBar";
 
 import "./HomePage.styles.scss";
+import postsContext from "../../context/posts/postsContext";
 
-const HomePage = ({ posts, loading, getTopPosts }) => {
+const HomePage = () => {
+  const { posts, loading, getTopPosts } = useContext(postsContext);
+
+  useEffect(() => {
+    getTopPosts();
+  }, []);
+
   const defaultPosts = [
     {
       id: "1",
@@ -37,9 +44,12 @@ const HomePage = ({ posts, loading, getTopPosts }) => {
       created_at: "2020-08-19",
     },
   ];
-  posts = posts ? posts : defaultPosts;
 
-  return (
+  return loading || !posts.length ? (
+    <Fragment>
+      <div className='page text-white h3'>Loading...</div>
+    </Fragment>
+  ) : (
     <Fragment>
       <div className='page'>
         <SideBar />

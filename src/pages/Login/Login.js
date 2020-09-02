@@ -1,27 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, Redirect } from "react-router-dom";
-// import { connect } from 'react-redux';
-// import { login } from '../../redux/auth/auth.actions';
-// import PropTypes from "prop-types";
+
+import authContext from "../../context/auth/authContext";
 
 import "./Login.styles.scss";
 
 import { ReactComponent as Logo } from "../../assets/LogoGlyphMd.svg";
 
-const Login = ({ login, isAuthenticated }) => {
+const Login = () => {
+  const { login, isAuthenticated } = useContext(authContext);
+
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
-  const { username, password } = formData;
+  const { email, password } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
-    // e.preventDefault();
-    // login({ username, password });
+    e.preventDefault();
+    login({ email, password });
   };
 
   if (isAuthenticated) {
@@ -40,15 +41,15 @@ const Login = ({ login, isAuthenticated }) => {
               <form className='login-form' onSubmit={(e) => onSubmit(e)}>
                 <div>
                   <label className='form-label s-label fc-black-600'>
-                    Username
+                    Email
                   </label>
                   <input
                     className='form-input s-input'
-                    type='text'
-                    name='username'
-                    value={username}
+                    type='email'
+                    name='email'
+                    value={email}
                     onChange={(e) => onChange(e)}
-                    id='username'
+                    id='email'
                   />
                 </div>
                 <div>

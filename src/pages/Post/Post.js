@@ -1,11 +1,8 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext, useEffect } from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
-// import { getPost, deletePost } from '../../redux/posts/posts.actions';
-// import { getAnswers, deleteAnswer, addAnswer } from '../../redux/answers/answers.actions';
-// import { getComments, deleteComment, addComment } from '../../redux/comments/comments.actions';
+
+import postsContext from "../../context/posts/postsContext";
 
 // import { ReactComponent as UpVote } from "../../assets/ArrowUpLg.svg";
 // import { ReactComponent as DownVote } from "../../assets/ArrowDownLg.svg";
@@ -25,13 +22,20 @@ const Post = ({
   getAnswers,
   getComments,
   auth,
-  getPost,
   answers,
   comments,
-  post,
-  loading,
+  // getPost,
+  // post,
+  // loading,
   match,
 }) => {
+  const { post, loading, getPost } = useContext(postsContext);
+
+  useEffect(() => {
+    getPost(match.params.slug);
+    // eslint-disable-next-line
+  }, []);
+
   // useEffect(() => {
   //     getPost(match.params.id);
   //     getAnswers(match.params.id);
@@ -73,20 +77,20 @@ const Post = ({
     // });
   };
 
-  post = {
-    answer_count: 0,
-    comment_count: 0,
-    created_at: "2020-08-26T12:37:35.000Z",
-    id: 1,
-    post_body:
-      "Ut saepe voluptas et. Sit suscipit consequuntur sequi repudiandae quo porro. Quos doloribus ipsum quas omnis quo error quod. Repellat eum repellendus non labore nemo.\n\nDolorum voluptas dolor facere fuga dolore. Distinctio eos consequatur eos id eos. Enim sit sed autem aperiam ea atque non.\n\nEsse fuga enim eligendi. Ratione atque voluptate ad nulla est ut ex. Molestias et impedit cupiditate. Corrupti fuga quasi sit ut.\n\nEsse consectetur rerum dolores omnis molestiae. Ut voluptas necessitatibus fa...",
-    tag_id: 1,
-    tagname: "css html",
-    title:
-      "Natus placeat eum est sed nemo vel voluptatibus quibusdam dolores enim animi et quos",
-    user_id: 1,
-    username: "testuser",
-  };
+  // post = {
+  //   answer_count: 0,
+  //   comment_count: 0,
+  //   created_at: "2020-08-26T12:37:35.000Z",
+  //   id: 1,
+  //   post_body:
+  //     "Ut saepe voluptas et. Sit suscipit consequuntur sequi repudiandae quo porro. Quos doloribus ipsum quas omnis quo error quod. Repellat eum repellendus non labore nemo.\n\nDolorum voluptas dolor facere fuga dolore. Distinctio eos consequatur eos id eos. Enim sit sed autem aperiam ea atque non.\n\nEsse fuga enim eligendi. Ratione atque voluptate ad nulla est ut ex. Molestias et impedit cupiditate. Corrupti fuga quasi sit ut.\n\nEsse consectetur rerum dolores omnis molestiae. Ut voluptas necessitatibus fa...",
+  //   tag_id: 1,
+  //   tagname: "css html",
+  //   title:
+  //     "Natus placeat eum est sed nemo vel voluptatibus quibusdam dolores enim animi et quos",
+  //   user_id: 1,
+  //   username: "testuser",
+  // };
 
   auth = {
     loading: false,
@@ -123,7 +127,7 @@ const Post = ({
                   <div className='vote-cell fc-black-800'>
                     <div className='stats'>
                       <div className='vote'>
-                        <span className='vote-count'>{post.answer_count}</span>
+                        <span className='vote-count'>{post.answers_count}</span>
                         <div className='count-text'>answers</div>
                       </div>
                       <div className='vote'>
@@ -138,7 +142,7 @@ const Post = ({
                   </div>
                   <div className='post-cell'>
                     <div className='post-text fc-black-800'>
-                      {post.post_body}
+                      {post.body}
                     </div>
                     <div className='post-tags fc-black-800'>
                       <div className='tag-cell'>

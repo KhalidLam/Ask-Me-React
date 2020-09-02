@@ -10,25 +10,30 @@ const PostItem = ({
   post: {
     id,
     title,
+    slug,
     body,
     tagname,
-    username,
+    user,
     user_id,
-    answer_count,
-    comment_count,
+    answers_count,
+    vote_count,
     created_at,
+    // username,
+    // answer_count,
+    // comment_count,
   },
 }) => {
+  vote_count = 0;
   const answerVoteUp = (
     <div className='vote answer'>
-      <span className='vote-count fc-green-500'>{answer_count}</span>
+      <span className='vote-count fc-green-500'>{answers_count}</span>
       <div className='count-text'>answers</div>
     </div>
   );
 
   const answerVoteDown = (
     <div className='vote'>
-      <span className='vote-count'>{answer_count}</span>
+      <span className='vote-count'>{answers_count}</span>
       <div className='count-text'>answers</div>
     </div>
   );
@@ -38,10 +43,11 @@ const PostItem = ({
       <div className='stats-container fc-black-500'>
         <div className='stats'>
           <div className='vote'>
-            <span className='vote-count'>{comment_count}</span>
-            <div className='count-text'>comments</div>
+            <span className='vote-count'>{vote_count}</span>
+            <div className='count-text'>votes</div>
+            {/* <div className='count-text'>comments</div> */}
           </div>
-          {answer_count > 0 ? answerVoteUp : answerVoteDown}
+          {answers_count > 0 ? answerVoteUp : answerVoteDown}
           <div className='vote'>
             <span className='vote-count'>{tagname ? 1 : 0}</span>
             <div className='count-text'>tags</div>
@@ -50,7 +56,7 @@ const PostItem = ({
       </div>
       <div className='summary'>
         <h3>
-          <Link to={`/questions/${id}`}>{title}</Link>
+          <Link to={`/questions/${slug}`}>{title}</Link>
         </h3>
         <div className='brief'>{body.substring(0, 200)}...</div>
         <div className='question-tags'>
@@ -74,7 +80,7 @@ const PostItem = ({
               </Link>
             </div>
             <div className='user-details'>
-              <Link to={`/users/${user_id}`}>{username}</Link>
+              <Link to={`/users/${user_id}`}>{user && user.name}</Link>
             </div>
           </div>
         </div>

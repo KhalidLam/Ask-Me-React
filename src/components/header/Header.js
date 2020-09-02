@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
 // import { connect } from "react-redux";
 // import PropTypes from "prop-types";
@@ -8,15 +8,15 @@ import { ReactComponent as Logo } from "../../assets/LogoMd.svg";
 import { ReactComponent as Search } from "../../assets/Search.svg";
 
 import "./header.styles.scss";
+import authContext from "../../context/auth/authContext";
 
 // { auth: { isAuthenticated, loading }, logout }
-const Header = ({ isAuthenticated, loading, logout }) => {
-  loading = false;
-  isAuthenticated = false;
+const Header = () => {
+  const { isAuthenticated, loading, logout } = useContext(authContext);
 
   const authLinks = (
     <div className='btns'>
-      <Link onClick={() => console.log("logout")} to='/login'>
+      <Link onClick={logout} to='/login'>
         <button type='button' className='s-btn s-btn__filled'>
           Log out
         </button>

@@ -1,28 +1,29 @@
-import React, { useState } from "react";
-// import {connect} from 'react-redux';
+import React, { useState, useContext } from "react";
 import { Link, Redirect } from "react-router-dom";
-// import { setAlert } from '../../redux/alert/alert.actions';
-// import { register } from '../../redux/auth/auth.actions';
 // import PropTypes from "prop-types";
+
+import authContext from "../../context/auth/authContext";
 
 import { ReactComponent as Logo } from "../../assets/LogoGlyphMd.svg";
 
 import "./Register.styles.scss";
 
-const Register = ({ register, isAuthenticated }) => {
+const Register = () => {
+  const { register, isAuthenticated } = useContext(authContext);
+
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
-  const { username, password } = formData;
+  const { email, password } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    // register({ username, password });
+    register({ email, password });
   };
 
   if (isAuthenticated) {
@@ -103,15 +104,15 @@ const Register = ({ register, isAuthenticated }) => {
               <form className='login-form' onSubmit={(e) => onSubmit(e)}>
                 <div>
                   <label className='form-label s-label fc-black-600'>
-                    Username
+                    email
                   </label>
                   <input
                     className='form-input s-input'
-                    type='text'
-                    name='username'
-                    value={username}
+                    type='email'
+                    name='email'
+                    value={email}
                     onChange={(e) => onChange(e)}
-                    id='username'
+                    id='email'
                   />
                 </div>
                 <div>
