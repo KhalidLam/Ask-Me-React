@@ -19,6 +19,7 @@ import UserPage from "./pages/UserPage/UserPage";
 
 import Header from "./components/header/Header";
 import Alert from "./components/alert/alert";
+import authContext from "./context/auth/authContext";
 
 function App() {
   return (

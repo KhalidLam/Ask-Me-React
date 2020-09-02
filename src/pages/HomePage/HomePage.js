@@ -10,11 +10,14 @@ import RightSideBar from "../../components/right-sideBar/right-sideBar";
 
 import "./HomePage.styles.scss";
 import postsContext from "../../context/posts/postsContext";
+import authContext from "../../context/auth/authContext";
 
 const HomePage = () => {
+  const { loadUser } = useContext(authContext);
   const { posts, loading, getTopPosts } = useContext(postsContext);
 
   useEffect(() => {
+    loadUser();
     getTopPosts();
   }, []);
 

@@ -1,9 +1,9 @@
 import React, { useReducer, useContext } from "react";
+import axios from "axios";
 import PostsContext from "./postsContext";
 import PostsReducer from "./postsReducer";
-import { GET_POSTS, GET_POST, POST_ERROR, SET_LOADING } from "../types";
-import axios from "axios";
 import alertContext from "../alert/alertContext";
+import { GET_POSTS, GET_POST, POST_ERROR, SET_LOADING } from "../types";
 
 const PostsState = (props) => {
   const { setAlert } = useContext(alertContext);
@@ -31,7 +31,7 @@ const PostsState = (props) => {
       });
     } catch (err) {
       console.log(err);
-      setAlert(err.response.data.message = "error message ", "danger");
+      // setAlert((err.response.data.message = "error message "), "danger");
 
       dispatch({
         type: POST_ERROR,
@@ -52,9 +52,7 @@ const PostsState = (props) => {
         payload: res.data,
       });
     } catch (err) {
-      console.log(err);
-      setAlert(err.response.data.message = "error message ", "danger");
-
+      // setAlert((err.response.data.message = "error message "), "danger");
 
       dispatch({
         type: POST_ERROR,
@@ -78,9 +76,8 @@ const PostsState = (props) => {
         payload: res.data,
       });
     } catch (err) {
-      setAlert(err.response.data.message = "error message ", "danger");
-
       console.log(err);
+      // setAlert((err.response.data.message = "error message "), "danger");
 
       dispatch({
         type: POST_ERROR,

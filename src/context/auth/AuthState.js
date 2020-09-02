@@ -26,6 +26,33 @@ const PostsState = (props) => {
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
+  // Load User
+  const loadUser = async () => {
+    const token = localStorage.token ? localStorage.token : "";
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+    } else {
+      delete axios.defaults.headers.common["Authorization"];
+    }
+
+    dispatch({ type: SET_LOADING });
+
+    try {
+      const res = await axios.get("http://localhost:8000/api/auth");
+      console.log(res.data);
+
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data,
+      });
+    } catch (err) {
+      console.log(err);
+      dispatch({
+        type: AUTH_ERROR,
+      });
+    }
+  };
+
   // Login User
   const login = async ({ email, password }) => {
     const config = {
@@ -53,12 +80,13 @@ const PostsState = (props) => {
         payload: res.data.result,
       });
 
-      setAlert((res.data.message = "success message"), "success");
+      // setAlert((res.data.message = "success message"), "success");
 
-      //   dispatch(loadUser());
+      // loadUser();
+      dispatch(loadUser());
     } catch (err) {
       console.log(err);
-      setAlert((err.response.data.message = "danger message"), "danger");
+      // setAlert((err.response.data.message = "danger message"), "danger");
 
       dispatch({
         type: LOGIN_FAIL,
@@ -90,11 +118,11 @@ const PostsState = (props) => {
         payload: res.data.result,
       });
 
-      setAlert((res.response.data.message = "success message"), "success");
+      // setAlert((res.data.result.message = "success message"), "success");
 
       //   dispatch(loadUser());
     } catch (err) {
-      setAlert((err.response.data.message = "danger message"), "danger");
+      // setAlert((err.response.data.message = "danger message"), "danger");
 
       dispatch({
         type: REGISTER_FAIL,
@@ -120,6 +148,7 @@ const PostsState = (props) => {
         login,
         register,
         logout,
+        loadUser,
       }}
     >
       {props.children}
