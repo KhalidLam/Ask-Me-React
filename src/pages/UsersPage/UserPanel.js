@@ -1,15 +1,14 @@
 import React from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
-// import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 
 import "./UserPanel.styles.scss";
 
 // ({ user: { id, username, created_at, posts_count, tags_count },})
-const UserPanel = ({ user }) => {
-  const { id, username, created_at, posts_count, tags_count } = user;
-
+const UserPanel = ({
+  user: { id, name, created_at, posts_count, tags_count },
+}) => {
   return (
     <div className='user-panel-info s-card bs-sm h:bs-md fc-black-500'>
       <div className='user-gravatar'>
@@ -24,7 +23,7 @@ const UserPanel = ({ user }) => {
       </div>
       <div className='user-details'>
         <Link className='fc-blue-600' to={`/users/${id}`}>
-          {username}
+          {name}
         </Link>
         <span className='post-count'>questions - {posts_count}</span>
         <span className='tag-count'>tags - {tags_count}</span>
@@ -40,5 +39,4 @@ const UserPanel = ({ user }) => {
 //     user: PropTypes.object.isRequired
 // };
 
-// export default connect(null)(UserPanel);
 export default UserPanel;

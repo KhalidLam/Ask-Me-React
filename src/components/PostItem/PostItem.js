@@ -23,7 +23,10 @@ const PostItem = ({
     // comment_count,
   },
 }) => {
-  vote_count = 0;
+  const tags = ["javascript", "css", "html"];
+  tagname = tagname ? tagname : tags[Math.floor(Math.random() * 3)];
+  vote_count = vote_count ? vote_count : 0;
+
   const answerVoteUp = (
     <div className='vote answer'>
       <span className='vote-count fc-green-500'>{answers_count}</span>

@@ -33,10 +33,10 @@ const PostsState = (props) => {
       console.log(err);
       // setAlert((err.response.data.message = "error message "), "danger");
 
-      dispatch({
-        type: POST_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status },
-      });
+      // dispatch({
+      //   type: POST_ERROR,
+      //   payload: { msg: err.response.statusText, status: err.response.status },
+      // });
     }
   };
 
@@ -79,10 +79,10 @@ const PostsState = (props) => {
       console.log(err);
       // setAlert((err.response.data.message = "error message "), "danger");
 
-      dispatch({
-        type: POST_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status },
-      });
+      // dispatch({
+      //   type: POST_ERROR,
+      //   payload: { msg: err.response.statusText, status: err.response.status },
+      // });
     }
   };
 

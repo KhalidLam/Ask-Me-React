@@ -95,14 +95,14 @@ const PostsState = (props) => {
   };
 
   // Register User
-  const register = async ({ email, password }) => {
+  const register = async ({ name, email, password }) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
 
-    const body = JSON.stringify({ email, password });
+    const body = JSON.stringify({ name, email, password });
 
     dispatch({ type: SET_LOADING });
 

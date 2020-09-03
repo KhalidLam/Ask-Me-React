@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import { Switch, Route } from "react-router-dom";
 import "./App.css";
 
-import PostsState from "./context/posts/PostsState";
-import AuthState from "./context/auth/AuthState";
 import AlertState from "./context/alert/AlertState";
+import AuthState from "./context/auth/AuthState";
+import PostsState from "./context/posts/PostsState";
+import UserState from "./context/users/UsersState";
 
 import HomePage from "./pages/HomePage/HomePage";
 import QuestionsPage from "./pages/QuestionsPage/QuestionsPage";
@@ -19,13 +20,13 @@ import UserPage from "./pages/UserPage/UserPage";
 
 import Header from "./components/header/Header";
 import Alert from "./components/alert/alert";
-import authContext from "./context/auth/authContext";
 
 function App() {
   return (
     <AlertState>
       <AuthState>
         <PostsState>
+        <UserState>
           <div className='App'>
             <Header />
             <Alert />
@@ -42,6 +43,7 @@ function App() {
               <Route exact path='/tags/:tagname' component={TagPage} />
             </Switch>
           </div>
+          </UserState>
         </PostsState>
       </AuthState>
     </AlertState>

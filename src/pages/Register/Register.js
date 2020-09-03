@@ -12,18 +12,19 @@ const Register = () => {
   const { register, isAuthenticated } = useContext(authContext);
 
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
   });
 
-  const { email, password } = formData;
+  const { name, email, password } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    register({ email, password });
+    register({ name, email, password });
   };
 
   if (isAuthenticated) {
@@ -102,6 +103,19 @@ const Register = () => {
             </div>
             <div className='form-container'>
               <form className='login-form' onSubmit={(e) => onSubmit(e)}>
+                <div>
+                  <label className='form-label s-label fc-black-600'>
+                    Username
+                  </label>
+                  <input
+                    className='form-input s-input'
+                    type='text'
+                    name='name'
+                    value={name}
+                    onChange={(e) => onChange(e)}
+                    id='name'
+                  />
+                </div>
                 <div>
                   <label className='form-label s-label fc-black-600'>
                     email
