@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 const Spinner = () => (
   <div className='d-flex justify-content-center w-auto mt-4 '>

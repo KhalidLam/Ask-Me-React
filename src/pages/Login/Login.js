@@ -5,10 +5,11 @@ import authContext from "../../context/auth/authContext";
 
 import "./Login.styles.scss";
 
-import { ReactComponent as Logo } from "../../assets/LogoGlyphMd.svg";
+// import { ReactComponent as Logo } from "../../assets/LogoGlyphMd.svg";
+import LogoImage from "../../assets/logo.png";
 
 const Login = () => {
-  const { login, isAuthenticated } = useContext(authContext);
+  const { login, isAuthenticated, loading } = useContext(authContext);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -35,7 +36,8 @@ const Login = () => {
         <div className='register-grid'>
           <div>
             <div className='icon-holder'>
-              <Logo className='icon' />
+              {/* <Logo className='icon' /> */}
+              <img src={LogoImage}  className='icon' alt="logo"/>
             </div>
             <div className='form-container'>
               <form className='login-form' onSubmit={(e) => onSubmit(e)}>
@@ -71,10 +73,19 @@ const Login = () => {
                     id='submit-button'
                     name='submit-button'
                   >
-                    Log in
+                    {!loading ? (
+                      "Log in"
+                    ) : (
+                      <span
+                        className='spinner-border spinner-border-sm'
+                        role='status'
+                        aria-hidden='true'
+                      ></span>
+                    )}
                   </button>
                 </div>
               </form>
+
               <div className='fs-caption license fc-black-500'>
                 By clicking “Log In”, you agree to our{" "}
                 <Link

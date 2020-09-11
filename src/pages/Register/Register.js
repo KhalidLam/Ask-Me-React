@@ -4,12 +4,13 @@ import { Link, Redirect } from "react-router-dom";
 
 import authContext from "../../context/auth/authContext";
 
-import { ReactComponent as Logo } from "../../assets/LogoGlyphMd.svg";
+// import { ReactComponent as Logo } from "../../assets/LogoGlyphMd.svg";
+import LogoImage from "../../assets/logo.png";
 
 import "./Register.styles.scss";
 
 const Register = () => {
-  const { register, isAuthenticated } = useContext(authContext);
+  const { register, isAuthenticated, loading } = useContext(authContext);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -99,7 +100,8 @@ const Register = () => {
           </div>
           <div>
             <div className='icon-holder'>
-              <Logo className='icon' />
+              {/* <Logo className='icon' /> */}
+              <img src={LogoImage} alt='logo' className='icon' />
             </div>
             <div className='form-container'>
               <form className='login-form' onSubmit={(e) => onSubmit(e)}>
@@ -151,7 +153,15 @@ const Register = () => {
                     id='submit-button'
                     name='submit-button'
                   >
-                    Sign up
+                    {!loading ? (
+                      "Sign up"
+                    ) : (
+                      <span
+                        className='spinner-border spinner-border-sm'
+                        role='status'
+                        aria-hidden='true'
+                      ></span>
+                    )}
                   </button>
                 </div>
               </form>
@@ -183,16 +193,14 @@ const Register = () => {
             </div>
             <div className='redirects fc-black-500'>
               Already have an account?{" "}
-              <Link
-                to='/users/login?ssrc=head&returnurl=%2fusers%2fstory%2fcurrent'
-                name='login'
-              >
+              <Link to='/login' name='login'>
                 Log in
               </Link>
               <div>
                 Are you an employer?{" "}
-                <Link
-                  to='https://careers.stackoverflow.com/employer/login'
+                {/* <Link to='https://careers.stackoverflow.com/employer/login' name='talent'></Link> */}
+                <a
+                  href='https://careers.stackoverflow.com/employer/login'
                   name='talent'
                 >
                   Sign up on Talent{" "}
@@ -206,7 +214,7 @@ const Register = () => {
                     <path d='M5 1H3a2 2 0 0 0-2 2v8c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V9h-2v2H3V3h2V1z' />
                     <path d='M7 1h6v6h-2V4.5L6.5 9 5 7.5 9.5 3H7V1z' />
                   </svg>
-                </Link>
+                </a>
               </div>
             </div>
           </div>

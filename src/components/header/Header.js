@@ -1,18 +1,26 @@
 import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
-// import { connect } from "react-redux";
-// import PropTypes from "prop-types";
-// import { logout } from "../../redux/auth/auth.actions";
 
-import { ReactComponent as Logo } from "../../assets/LogoMd.svg";
-import { ReactComponent as Search } from "../../assets/Search.svg";
-
-import "./header.styles.scss";
 import authContext from "../../context/auth/authContext";
 
-// { auth: { isAuthenticated, loading }, logout }
+import { ReactComponent as Search } from "../../assets/Search.svg";
+import DefaultLogo from "../../assets/deflogo.png";
+
+import "./header.styles.scss";
+
 const Header = () => {
   const { isAuthenticated, loading, logout } = useContext(authContext);
+
+  const authLoading = (
+    <button className='s-btn s-btn__filled' type='button' disabled>
+      <span
+        className='spinner-border spinner-border-sm'
+        role='status'
+        aria-hidden='true'
+      ></span>
+      <span className='sr-only'>Loading...</span>
+    </button>
+  );
 
   const authLinks = (
     <div className='btns'>
@@ -41,7 +49,7 @@ const Header = () => {
         Customers
       </Link>
       <Link to='/' className='s-navigation--item not-selected'>
-        Use cases
+        About
       </Link>
     </div>
   );
@@ -64,7 +72,11 @@ const Header = () => {
   return (
     <nav className='navbar fixed-top navbar-expand-lg navbar-light bs-md'>
       <Link className='navbar-brand' to='/'>
-        <Logo />
+        <img
+          src={DefaultLogo}
+          alt=''
+          style={{ width: "120px", height: "auto" }}
+        />
       </Link>
       {!loading && (
         <Fragment>{isAuthenticated ? authTabs : guestTabs}</Fragment>
@@ -87,21 +99,13 @@ const Header = () => {
           <Search />
         </div>
       </form>
-      {!loading && (
+      {loading ? (
+        authLoading
+      ) : (
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}
     </nav>
   );
 };
 
-// Header.propTypes = {
-//   logout: PropTypes.func.isRequired,
-//   auth: PropTypes.object.isRequired,
-// };
-
-// const mapStateToProps = (state) => ({
-//   auth: state.auth,
-// });
-
-// export default connect(mapStateToProps, { logout })(Header);
 export default Header;

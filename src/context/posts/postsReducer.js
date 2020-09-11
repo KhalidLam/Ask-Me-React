@@ -1,4 +1,11 @@
-import { GET_POSTS, GET_POST, POST_ERROR, SET_LOADING } from "../types";
+import {
+  GET_POSTS,
+  GET_POST,
+  POST_ERROR,
+  ADD_POST,
+  DELETE_POST,
+  SET_LOADING,
+} from "../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -13,6 +20,20 @@ export default (state, action) => {
       return {
         ...state,
         post: action.payload,
+        loading: false,
+      };
+
+    case ADD_POST:
+      return {
+        ...state,
+        posts: [...state.posts, action.payload],
+        loading: false,
+      };
+
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post.id !== action.payload),
         loading: false,
       };
 

@@ -1,14 +1,17 @@
-import React, { Fragment, useState } from "react";
-// import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import React, { Fragment, useState, useContext } from "react";
+import { Redirect, useHistory } from "react-router-dom";
+
 // import PropTypes from "prop-types";
-// import { addPost } from "../../redux/posts/posts.actions";
+import postsContext from "../../context/posts/postsContext";
 
 import "./PostForm.styles.scss";
+import authContext from "../../context/auth/authContext";
 
-const PostForm = ({ isAuthenticated, loading, addPost }) => {
-    isAuthenticated = true;
-    loading = false;
+// { isAuthenticated, loading, addPost }
+const PostForm = () => {
+  const { isAuthenticated } = useContext(authContext);
+  const { addPost, loading, error } = useContext(postsContext);
+  let history = useHistory();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -18,26 +21,26 @@ const PostForm = ({ isAuthenticated, loading, addPost }) => {
 
   const { title, body, tagname } = formData;
 
-  const onChange = (e) =>
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    // addPost({ title, body, tagname });
-    // setFormData({
-    //   title: "",
-    //   body: "",
-    //   tagname: "",
-    // });
+    addPost({ title, body, tagname });
+    setFormData({
+      title: "",
+      body: "",
+      tagname: "",
+    });
+
+    // Redirect after post is submited successfuly
+    if (!error) setTimeout(() => history.push("/"), 1000);
   };
 
-  if (!isAuthenticated) {
-    return <Redirect to='/login' />;
-  }
+  // Redirect if user is not log in
+  if (!isAuthenticated) return <Redirect to='/login' />;
 
-  return loading === null ? (
-    <Fragment>Loading...</Fragment>
-  ) : (
+  return (
     <Fragment>
       <div className='post-form-container'>
         <div className='post-form-content'>
@@ -64,7 +67,7 @@ const PostForm = ({ isAuthenticated, loading, addPost }) => {
                         type='text'
                         name='title'
                         value={title}
-                        onChange={(e) => onChange(e)}
+                        onChange={(e) => handleChange(e)}
                         id='title'
                         placeholder='e.g. Is there an R function for finding the index of an element in a vector?'
                       />
@@ -83,7 +86,7 @@ const PostForm = ({ isAuthenticated, loading, addPost }) => {
                         cols='30'
                         rows='12'
                         value={body}
-                        onChange={(e) => onChange(e)}
+                        onChange={(e) => handleChange(e)}
                         placeholder='Enter body with minimum 30 characters'
                         id='body'
                       ></textarea>
@@ -101,7 +104,7 @@ const PostForm = ({ isAuthenticated, loading, addPost }) => {
                         type='text'
                         name='tagname'
                         value={tagname}
-                        onChange={(e) => onChange(e)}
+                        onChange={(e) => handleChange(e)}
                         id='tagname'
                         placeholder='e.g. (ajax django string)'
                       />
@@ -114,7 +117,15 @@ const PostForm = ({ isAuthenticated, loading, addPost }) => {
                     id='submit-button'
                     name='submit-button'
                   >
-                    Post your question
+                    {!loading ? (
+                      "Post your question"
+                    ) : (
+                      <span
+                        className='spinner-border spinner-border-sm'
+                        role='status'
+                        aria-hidden='true'
+                      ></span>
+                    )}
                   </button>
                 </div>
               </form>
@@ -240,9 +251,4 @@ const PostForm = ({ isAuthenticated, loading, addPost }) => {
 //     auth: PropTypes.object.isRequired
 // };
 
-// const mapStateToProps = state => ({
-//     auth: state.auth
-// });
-
-// export default connect(mapStateToProps, { addPost })(PostForm);
 export default PostForm;

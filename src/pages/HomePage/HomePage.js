@@ -21,45 +21,13 @@ const HomePage = () => {
     // eslint-disable-next-line
   }, []);
 
-  // return loading || !posts.length ? (
-  //   <Spinner />
-  // ) : (
-  //   <Fragment>
-  //     <div className='page'>
-  //       <SideBar />
-  //       <div id='content'>
-  //         <div id='mainbar' className='homepage fc-black-800'>
-  //           <div className='questions-grid'>
-  //             <h3 className='questions-headline'>Top Questions</h3>
-  //             <div className='questions-btn'>
-  //               <Link to='/add/question'>
-  //                 <button className='s-btn s-btn__primary'>Ask Question</button>
-  //               </Link>
-  //             </div>
-  //           </div>
-  //           <div className='questions-tabs'>
-  //             <span>19,204,360 questions</span>
-  //           </div>
-  //           <div className='questions'>
-  //             {posts.map((post) => (
-  //               <PostItem key={post.id} post={post} />
-  //             ))}
-  //           </div>
-  //         </div>
-  //         <RightSideBar />
-  //       </div>
-  //     </div>
-  //   </Fragment>
-  // );
-
   return (
     <Fragment>
       <div className='page'>
         <SideBar />
         <div id='content'>
           <div id='mainbar' className='homepage fc-black-800'>
-
-            {loading || !posts.length ? (
+            {!posts.length && loading ? (
               <Spinner />
             ) : (
               <Fragment>

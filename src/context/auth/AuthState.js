@@ -73,8 +73,6 @@ const PostsState = (props) => {
         config
       );
 
-      console.log(res);
-
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data.result,
@@ -82,11 +80,11 @@ const PostsState = (props) => {
 
       // setAlert((res.data.message = "success message"), "success");
 
-      // loadUser();
-      dispatch(loadUser());
+      loadUser();
+      // dispatch(loadUser());
     } catch (err) {
-      console.log(err);
-      // setAlert((err.response.data.message = "danger message"), "danger");
+      console.log(err.response);
+      if(err.response.status === 401) setAlert("Incorrect username or password.", "danger");
 
       dispatch({
         type: LOGIN_FAIL,
@@ -118,11 +116,12 @@ const PostsState = (props) => {
         payload: res.data.result,
       });
 
-      // setAlert((res.data.result.message = "success message"), "success");
-
+      setAlert("User registration Successful!", "success");
       //   dispatch(loadUser());
+
     } catch (err) {
-      // setAlert((err.response.data.message = "danger message"), "danger");
+      console.log(err.response);
+      if(err.response.status === 401) setAlert("Something went wrong, User Registration failed", "danger");
 
       dispatch({
         type: REGISTER_FAIL,
@@ -132,8 +131,7 @@ const PostsState = (props) => {
 
   //LOGOUT
   const logout = () => {
-    setAlert("User has logged out", "success");
-
+    // setAlert("User has logged out", "success");
     // dispatch({ type: SET_LOADING });
     dispatch({ type: LOGOUT });
   };

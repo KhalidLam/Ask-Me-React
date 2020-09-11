@@ -1,12 +1,10 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer} from "react";
 import axios from "axios";
 import UsersContext from "./usersContext";
 import UsersReducer from "./usersReducer";
-// import alertContext from "../alert/alertContext";
 import { GET_USERS, GET_USER, USER_ERROR, SET_LOADING } from "../types";
 
 const UserState = (props) => {
-  //   const { setAlert } = useContext(alertContext);
 
   const initialState = {
     users: [],
@@ -42,7 +40,6 @@ const UserState = (props) => {
       const res = await axios.get(`http://localhost:8000/api/users/${id}`);
       console.log(res);
 
-      //  const res = await axios.get(`/api/users/${id}`);
       dispatch({
         type: GET_USER,
         payload: res.data,

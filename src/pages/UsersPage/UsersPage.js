@@ -56,33 +56,6 @@ const UsersPage = () => {
 
 export default UsersPage;
 
-// return loading || !users.length ? (
-//   <Fragment>
-//     <div className='page text-white h3'>Loading...</div>
-//   </Fragment>
-// ) : (
-//   <Fragment>
-//     <div className='page'>
-//       <SideBar />
-//       <div id='content'>
-//         <div id='mainbar' className='users-page fc-black-800'>
-//           <h1 className='headline'>Users</h1>
-//           <div className='headline-count'>
-//             <span>1,025 users</span>
-//           </div>
-//           <div className='user-browser'>
-//             <div className='grid-layout'>
-//               {users.map((user) => (
-//                 <UserPanel key={user.id} user={user} />
-//               ))}
-//             </div>
-//           </div>
-//         </div>
-//         <RightSideBar />
-//       </div>
-//     </div>
-//   </Fragment>
-// );
 
 // const allUsers = [
 //   {
