@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useContext } from "react";
 import { Redirect, useHistory } from "react-router-dom";
+import CKEditor from "ckeditor4-react";
 
 // import PropTypes from "prop-types";
 import postsContext from "../../context/posts/postsContext";
@@ -19,19 +20,27 @@ const PostForm = () => {
     tagname: "",
   });
 
+  const [data, setData] = useState("");
+
   const { title, body, tagname } = formData;
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const onEditorChange = (e) => {
+    console.log(e.editor.getData());
+    setFormData({ ...formData, body: e.editor.getData() });
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    addPost({ title, body, tagname });
-    setFormData({
-      title: "",
-      body: "",
-      tagname: "",
-    });
+    console.log(formData);
+    // addPost({ title, body, tagname });
+    // setFormData({
+    //   title: "",
+    //   body: "",
+    //   tagname: "",
+    // });
 
     // Redirect after post is submited successfuly
     if (!error) setTimeout(() => history.push("/"), 1000);
@@ -90,6 +99,7 @@ const PostForm = () => {
                         placeholder='Enter body with minimum 30 characters'
                         id='body'
                       ></textarea>
+                      {/* <CKEditor data={body} type='classic' onChange={onEditorChange} /> */}
                     </div>
                     <div className='tag-grid'>
                       <label className='form-label s-label'>
