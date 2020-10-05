@@ -10,6 +10,7 @@ import {
   ADD_POST,
   DELETE_POST,
   SET_LOADING,
+  ADD_COMMENT,
 } from "../types";
 
 const PostsState = (props) => {
@@ -90,12 +91,13 @@ const PostsState = (props) => {
       });
     } catch (err) {
       console.log(err.response);
-      // setAlert(err.response.data.message, "danger");
 
-      // dispatch({
-      //   type: POST_ERROR,
-      //   payload: { msg: err.response.statusText, status: err.response.status },
-      // });
+      dispatch({
+        type: POST_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+
+      setAlert(err.response.data.message, "danger");
     }
   };
 
@@ -136,6 +138,44 @@ const PostsState = (props) => {
       });
     }
   };
+
+  // Add Comment
+  // const addComment = async (formData) => {
+  //   const token = localStorage.token ? localStorage.token : "";
+  //   const config = { headers: { "Content-Type": "application/json" } };
+
+  //   token
+  //     ? (axios.defaults.headers.common["Authorization"] = "Bearer " + token)
+  //     : delete axios.defaults.headers.common["Authorization"];
+
+  //   try {
+  //     dispatch({ type: SET_LOADING });
+
+  //     const res = await axios.post(
+  //       "http://localhost:8000/api/comments",
+  //       formData,
+  //       config
+  //     );
+  //     console.log(res);
+
+  //     dispatch({
+  //       type: ADD_COMMENT,
+  //       payload: res.data.result,
+  //     });
+
+  //     // setAlert(res.data.message, "success");
+
+  //     // getPosts();
+  //   } catch (err) {
+  //     console.log(err.response);
+  //     // setAlert(err.response.data.error, "danger");
+
+  //     // dispatch({
+  //     //   type: POST_ERROR,
+  //     //   payload: { msg: err.response.statusText, status: err.response.status },
+  //     // });
+  //   }
+  // }
 
   // Delete post
   const deletePost = async (id) => {

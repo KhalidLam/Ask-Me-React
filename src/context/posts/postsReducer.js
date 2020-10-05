@@ -5,6 +5,7 @@ import {
   ADD_POST,
   DELETE_POST,
   SET_LOADING,
+  ADD_COMMENT,
 } from "../types";
 
 export default (state, action) => {
@@ -27,6 +28,16 @@ export default (state, action) => {
       return {
         ...state,
         posts: [...state.posts, action.payload],
+        loading: false,
+      };
+
+    case ADD_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: [...state.post.comments, action.payload],
+        },
         loading: false,
       };
 

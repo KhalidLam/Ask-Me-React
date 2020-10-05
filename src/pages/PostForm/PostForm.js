@@ -1,50 +1,47 @@
 import React, { Fragment, useState, useContext } from "react";
 import { Redirect, useHistory } from "react-router-dom";
-import CKEditor from "ckeditor4-react";
+// import CKEditor from "ckeditor4-react";
 
-// import PropTypes from "prop-types";
 import postsContext from "../../context/posts/postsContext";
 
 import "./PostForm.styles.scss";
 import authContext from "../../context/auth/authContext";
 
-// { isAuthenticated, loading, addPost }
 const PostForm = () => {
+  let history = useHistory();
   const { isAuthenticated } = useContext(authContext);
   const { addPost, loading, error } = useContext(postsContext);
-  let history = useHistory();
 
   const [formData, setFormData] = useState({
     title: "",
     body: "",
     tagname: "",
   });
-
-  const [data, setData] = useState("");
-
   const { title, body, tagname } = formData;
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onEditorChange = (e) => {
-    console.log(e.editor.getData());
-    setFormData({ ...formData, body: e.editor.getData() });
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    // addPost({ title, body, tagname });
-    // setFormData({
-    //   title: "",
-    //   body: "",
-    //   tagname: "",
-    // });
+    addPost({ title, body, tagname });
+    setFormData({
+      title: "",
+      body: "",
+      tagname: "",
+    });
 
     // Redirect after post is submited successfuly
     if (!error) setTimeout(() => history.push("/"), 1000);
   };
+
+  // Test CKeditor
+  // const [data, setData] = useState("");
+  // const onEditorChange = (e) => {
+  //   console.log(e.editor.getData());
+  //   setFormData({ ...formData, body: e.editor.getData() });
+  // };
 
   // Redirect if user is not log in
   if (!isAuthenticated) return <Redirect to='/login' />;
@@ -59,8 +56,9 @@ const PostForm = () => {
             </div>
           </div>
           <div className='post-form-section'>
+            {/* Form */}
             <div className='postform' style={{ width: "100%" }}>
-              <form onSubmit={(e) => onSubmit(e)}>
+              <form onSubmit={onSubmit}>
                 <div className='question-form p16 s-card'>
                   <div className='question-layout'>
                     <div className='title-grid'>
@@ -95,7 +93,7 @@ const PostForm = () => {
                         cols='30'
                         rows='12'
                         value={body}
-                        onChange={(e) => handleChange(e)}
+                        onChange={handleChange}
                         placeholder='Enter body with minimum 30 characters'
                         id='body'
                       ></textarea>
@@ -140,6 +138,8 @@ const PostForm = () => {
                 </div>
               </form>
             </div>
+
+            {/* Aside */}
             <aside>
               <div className='right-panel'>
                 <div className='widget'>
@@ -256,9 +256,5 @@ const PostForm = () => {
   );
 };
 
-// PostForm.propTypes = {
-//     addPost: PropTypes.func.isRequired,
-//     auth: PropTypes.object.isRequired
-// };
 
 export default PostForm;

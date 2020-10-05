@@ -53,6 +53,7 @@ const QuestionsPage = ({ getPosts, posts, loading }) => {
       created_at: "2020-08-19",
     },
   ];
+  
   posts = posts ? posts : defaultPosts;
 
   return (

@@ -45,7 +45,7 @@ const HomePage = () => {
                   <span>19,204,360 questions</span>
                 </div>
                 <div className='questions'>
-                  {posts.map((post) => (
+                  {posts.length && posts.map((post) => (
                     <PostItem key={post.id} post={post} />
                   ))}
                 </div>

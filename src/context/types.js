@@ -23,3 +23,21 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 export const GET_USERS = "GET_USERS";
 export const GET_USER = "GET_USER";
 export const USER_ERROR = "USER_ERROR";
+
+// Comments
+export const ADD_COMMENT = "ADD_COMMENT";
+export const GET_COMMENTS = 'GET_COMMENTS';
+export const COMMENT_ERROR = 'COMMENT_ERROR';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+
+// Answers
+export const GET_ANSWERS = 'GET_ANSWERS';
+export const ANSWER_ERROR = 'ANSWER_ERROR';
+export const DELETE_ANSWER = 'DELETE_ANSWER';
+export const ADD_ANSWER = 'ADD_ANSWER';
+
+
+// Jobs
+export const GET_JOBS = 'GET_JOBS';
+export const GET_JOB = 'GET_JOB';
+export const JOB_ERROR = 'JOB_ERROR';

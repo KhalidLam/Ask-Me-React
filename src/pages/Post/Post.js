@@ -2,8 +2,10 @@ import React, { Fragment, useState, useContext, useEffect } from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
-import postsContext from "../../context/posts/postsContext";
 import authContext from "../../context/auth/authContext";
+import postsContext from "../../context/posts/postsContext";
+import answersContext from "../../context/answers/answersContext";
+import commentsContext from "../../context/comments/commentsContext";
 
 import Spinner from "../../components/spinner/Spinner";
 
@@ -15,23 +17,11 @@ import RightSideBar from "../../components/right-sideBar/right-sideBar";
 
 import "./Post.styles.scss";
 
-// const Post = ({ deletePost, deleteAnswer, addAnswer, deleteComment, addComment, getAnswers, getComments, auth, getPost, answer: { answers }, comment: { comments }, post: { post, loading }, match }) => {
-const Post = ({
-  deleteAnswer,
-  addAnswer,
-  deleteComment,
-  addComment,
-  getAnswers,
-  getComments,
-  // answers,
-  comments,
-  // deletePost,
-  // getPost,
-  // post,
-  // loading,
-  match,
-}) => {
+const Post = ({ match }) => {
   const { post, loading, getPost, deletePost } = useContext(postsContext);
+  const { answers, getAnswers, addAnswer, deleteAnswer } = useContext(answersContext);
+
+  const { comments, getComments, addComment, deleteComment, commentloading } = useContext(commentsContext);
   const auth = useContext(authContext);
 
   const [formDataAnswer, setFormDataAnswer] = useState({ text: "" });
@@ -40,29 +30,27 @@ const Post = ({
   const { text } = formDataAnswer;
   const { body } = formData;
 
-  const answers = post ? post.answers : [];
 
   useEffect(() => {
     getPost(match.params.slug);
+    getAnswers(match.params.slug);
+    getComments(match.params.slug);
     // eslint-disable-next-line
   }, []);
 
-  // useEffect(() => {
-  //     getPost(match.params.id);
-  //     getAnswers(match.params.id);
-  //     getComments(match.params.id);
-  //     // eslint-disable-next-line
-  // }, [ getPost, getAnswers, getComments ]);
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = async (e) => {
+  const onSubmitComment = async (e) => {
     e.preventDefault();
-    // addComment(match.params.id, {body});
-    // setFormData({
-    //     body: ''
-    // });
+
+    const formData = {question_id: post.id, body: body}
+    addComment(post.slug, formData);
+
+    setFormData({
+      body: ''
+    });
   };
 
   const onChangeAnswer = (e) =>
@@ -70,29 +58,13 @@ const Post = ({
 
   const onSubmitAnswer = async (e) => {
     e.preventDefault();
-    // addAnswer(match.params.id,{text});
-    // setFormDataAnswer({
-    //     text: ''
-    // });
-  };
 
-  // Static Data to change later
-  comments = [
-    {
-      id: 1,
-      body: "Test Comment",
-      user_id: 16,
-      username: "Khalid",
-      created_at: "2020-09-02 03:39:03",
-    },
-    {
-      id: 2,
-      body: "Thanks for your answer",
-      user_id: 4,
-      username: "Antonette Price",
-      created_at: "2020-09-02 03:39:03",
-    },
-  ];
+    const formData = { body: text}
+    addAnswer(match.params.slug, formData);
+    setFormDataAnswer({
+      text: ''
+    });
+  };
 
   return (
     <div className='page'>
@@ -132,7 +104,7 @@ const Post = ({
                         </div>
                         <div className='vote'>
                           <span className='vote-count'>
-                            {post.comment_count}
+                            {comments.length > 0 ? comments.length + 1 : 0}
                           </span>
                           <div className='count-text'>comments</div>
                         </div>
@@ -219,8 +191,8 @@ const Post = ({
                     <div className='comments-cell'>
                       <div className='comments'>
                         <ul className='comments-list'>
-                          {comments.map((comment) => (
-                            <li className='comments-item' key={comment.id}>
+                          {!commentloading && comments.map((comment, index) => (
+                            <li className='comments-item' key={index}>
                               <div className='comment-text fc-black-800'>
                                 <div className='comment-body'>
                                   <span className='body'>{comment.body}</span>
@@ -229,7 +201,7 @@ const Post = ({
                                     className='s-tag'
                                     to={`/users/${comment.user_id}`}
                                   >
-                                    {comment.username}
+                                    {comment.user && comment.user.name}
                                   </Link>
                                   <span
                                     title={moment(comment.created_at).fromNow(
@@ -251,7 +223,7 @@ const Post = ({
                                       style={{ marginTop: "4px" }}
                                       title='Delete the comment'
                                       onClick={(e) => deleteComment(comment.id)}
-                                      to={`/questions/${post.id}`}
+                                      to={`/questions/${post.slug}`}
                                     >
                                       delete
                                     </Link>
@@ -266,7 +238,6 @@ const Post = ({
                           <Fragment>
                             <form
                               className='comment-form'
-                              onSubmit={(e) => onSubmit(e)}
                             >
                               <div>
                                 <input
@@ -274,7 +245,8 @@ const Post = ({
                                   type='text'
                                   name='body'
                                   value={body}
-                                  onChange={(e) => onChange(e)}
+                                  onChange={onChange}
+                                  onKeyDown={(e) => { e.key === 'Enter' && onSubmitComment(e) }}
                                   id='title'
                                   placeholder='add comment'
                                 />
@@ -386,7 +358,7 @@ const Post = ({
                                       style={{ paddingLeft: "4px" }}
                                       title='Delete the answer'
                                       onClick={(e) => deleteAnswer(answer.id)}
-                                      to={`/questions/${post.id}`}
+                                      to={`/questions/${post.slug}`}
                                     >
                                       delete
                                     </Link>
@@ -420,7 +392,7 @@ const Post = ({
                                     className='answer-user-profile-link fc-blue-600'
                                     to={`/users/${answer.user_id}`}
                                   >
-                                    {answer.user.name}
+                                    {answer.user && answer.user.name}
                                   </Link>
                                 </div>
                               </div>
@@ -449,7 +421,7 @@ const Post = ({
                               placeholder='Enter body with minimum 30 characters'
                               id='text'
                             ></textarea>
-                            <button className='s-btn s-btn__primary'>
+                            <button className='s-btn s-btn__primary' type="submit">
                               Post Your Answer
                             </button>
                           </div>
@@ -480,26 +452,5 @@ const Post = ({
   );
 };
 
-// const mapStateToProps = state => ({
-//     post: state.post,
-//     auth: state.auth,
-//     answer: state.answer,
-//     comment: state.comment
-// });
 
 export default Post;
-
-// post = {
-//   answer_count: 0,
-//   comment_count: 0,
-//   created_at: "2020-08-26T12:37:35.000Z",
-//   id: 1,
-//   post_body:
-//     "Ut saepe voluptas et. Sit suscipit consequuntur sequi repudiandae quo porro. Quos doloribus ipsum quas omnis quo error quod. Repellat eum repellendus non labore nemo.\n\nDolorum voluptas dolor facere fuga dolore. Distinctio eos consequatur eos id eos. Enim sit sed autem aperiam ea atque non.\n\nEsse fuga enim eligendi. Ratione atque voluptate ad nulla est ut ex. Molestias et impedit cupiditate. Corrupti fuga quasi sit ut.\n\nEsse consectetur rerum dolores omnis molestiae. Ut voluptas necessitatibus fa...",
-//   tag_id: 1,
-//   tagname: "css html",
-//   title:
-//     "Natus placeat eum est sed nemo vel voluptatibus quibusdam dolores enim animi et quos",
-//   user_id: 1,
-//   username: "testuser",
-// };
