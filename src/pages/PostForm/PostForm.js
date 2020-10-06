@@ -15,9 +15,9 @@ const PostForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     body: "",
-    tagname: "",
+    tags: "",
   });
-  const { title, body, tagname } = formData;
+  const { title, body, tags } = formData;
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,11 +25,11 @@ const PostForm = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    addPost({ title, body, tagname });
+    addPost({ title, body, tags });
     setFormData({
       title: "",
       body: "",
-      tagname: "",
+      tags: "",
     });
 
     // Redirect after post is submited successfuly
@@ -107,14 +107,15 @@ const PostForm = () => {
                           about
                         </p>
                       </label>
+                      {/* <input type="text" name="tags" class="form-control"/> */}
                       <input
                         className='tag-input s-input'
                         type='text'
-                        name='tagname'
-                        value={tagname}
+                        name='tags'
+                        value={tags}
                         onChange={(e) => handleChange(e)}
-                        id='tagname'
-                        placeholder='e.g. (ajax django string)'
+                        id='tags'
+                        placeholder='e.g. (ajax,django,string)'
                       />
                     </div>
                   </div>

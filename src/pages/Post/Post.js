@@ -18,19 +18,24 @@ import RightSideBar from "../../components/right-sideBar/right-sideBar";
 import "./Post.styles.scss";
 
 const Post = ({ match }) => {
-  const { post, loading, getPost, deletePost } = useContext(postsContext);
-  const { answers, getAnswers, addAnswer, deleteAnswer } = useContext(answersContext);
-
-  const { comments, getComments, addComment, deleteComment, commentloading } = useContext(commentsContext);
+  // Get variables from context
   const auth = useContext(authContext);
 
-  const [formDataAnswer, setFormDataAnswer] = useState({ text: "" });
-  const [formData, setFormData] = useState({ body: "" });
+  const { post, loading, getPost, deletePost } = useContext(postsContext);
 
-  const { text } = formDataAnswer;
-  const { body } = formData;
+  const { answers, getAnswers, addAnswer, deleteAnswer } = useContext(
+    answersContext
+  );
 
+  const {
+    comments,
+    getComments,
+    addComment,
+    deleteComment,
+    commentloading,
+  } = useContext(commentsContext);
 
+  //
   useEffect(() => {
     getPost(match.params.slug);
     getAnswers(match.params.slug);
@@ -38,18 +43,25 @@ const Post = ({ match }) => {
     // eslint-disable-next-line
   }, []);
 
+  // Handle Form Data
+  const [formDataAnswer, setFormDataAnswer] = useState({ text: "" });
+  const [formData, setFormData] = useState({ body: "" });
 
+  const { text } = formDataAnswer;
+  const { body } = formData;
+
+  // Events Functions
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmitComment = async (e) => {
     e.preventDefault();
 
-    const formData = {question_id: post.id, body: body}
+    const formData = { question_id: post.id, body: body };
     addComment(post.slug, formData);
 
     setFormData({
-      body: ''
+      body: "",
     });
   };
 
@@ -59,10 +71,10 @@ const Post = ({ match }) => {
   const onSubmitAnswer = async (e) => {
     e.preventDefault();
 
-    const formData = { body: text}
+    const formData = { body: text };
     addAnswer(match.params.slug, formData);
     setFormDataAnswer({
-      text: ''
+      text: "",
     });
   };
 
@@ -115,14 +127,24 @@ const Post = ({ match }) => {
                       </div>
                     </div>
                     <div className='post-cell'>
-                      <div className='post-text fc-black-800'>{post.body}</div>
+                      {/* Post body */}
+                      {/* <div className='post-text fc-black-800'>{post.body}</div> */}
+                      <div
+                        className='post-text fc-black-800'
+                        dangerouslySetInnerHTML={{ __html: post.body }}
+                      />
+
+                      {/* Post Tags */}
                       <div className='post-tags fc-black-800'>
-                        <div className='tag-cell'>
-                          <Link className='s-tag' to={`/tags/${post.tagname}`}>
-                            {post.tagname}
-                          </Link>
-                        </div>
+                        {post.tags.map((tag) => (
+                          <div key={tag.id} className='tag-cell'>
+                            <Link className='s-tag' to={`/tags/${tag.tagname}`}>
+                              {tag.tagname}
+                            </Link>
+                          </div>
+                        ))}
                       </div>
+
                       <div className='post-actions fc-black-800'>
                         <div className='post-actions-extended'>
                           <div className='post-btns'>
@@ -149,7 +171,7 @@ const Post = ({ match }) => {
                                     style={{ paddingLeft: "4px" }}
                                     title='Delete the post'
                                     onClick={(e) => deletePost(post.id)}
-                                    to='/questions'
+                                    to='/'
                                   >
                                     delete
                                   </Link>
@@ -191,54 +213,55 @@ const Post = ({ match }) => {
                     <div className='comments-cell'>
                       <div className='comments'>
                         <ul className='comments-list'>
-                          {!commentloading && comments.map((comment, index) => (
-                            <li className='comments-item' key={index}>
-                              <div className='comment-text fc-black-800'>
-                                <div className='comment-body'>
-                                  <span className='body'>{comment.body}</span>
-                                  &nbsp;&ndash;&nbsp;
-                                  <Link
-                                    className='s-tag'
-                                    to={`/users/${comment.user_id}`}
-                                  >
-                                    {comment.user && comment.user.name}
-                                  </Link>
-                                  <span
-                                    title={moment(comment.created_at).fromNow(
-                                      true
-                                    )}
-                                    style={{ color: "#959ca3 !important" }}
-                                    className='date fs-body1'
-                                  >
-                                    {moment(comment.created_at).fromNow(true)}{" "}
-                                    ago
-                                  </span>
-                                </div>
-                                {!auth.loading &&
-                                  auth.isAuthenticated &&
-                                  parseInt(comment.user_id) ===
-                                    auth.user.id && (
+                          {!commentloading &&
+                            comments.map((comment, index) => (
+                              <li className='comments-item' key={index}>
+                                <div className='comment-text fc-black-800'>
+                                  <div className='comment-body'>
+                                    <span className='body'>{comment.body}</span>
+                                    &nbsp;&ndash;&nbsp;
                                     <Link
-                                      className='s-tag s-tag__moderator'
-                                      style={{ marginTop: "4px" }}
-                                      title='Delete the comment'
-                                      onClick={(e) => deleteComment(comment.id)}
-                                      to={`/questions/${post.slug}`}
+                                      className='s-tag'
+                                      to={`/users/${comment.user_id}`}
                                     >
-                                      delete
+                                      {comment.user && comment.user.name}
                                     </Link>
-                                  )}
-                              </div>
-                            </li>
-                          ))}
+                                    <span
+                                      title={moment(comment.created_at).fromNow(
+                                        true
+                                      )}
+                                      style={{ color: "#959ca3 !important" }}
+                                      className='date fs-body1'
+                                    >
+                                      {moment(comment.created_at).fromNow(true)}{" "}
+                                      ago
+                                    </span>
+                                  </div>
+                                  {!auth.loading &&
+                                    auth.isAuthenticated &&
+                                    parseInt(comment.user_id) ===
+                                      auth.user.id && (
+                                      <Link
+                                        className='s-tag s-tag__moderator'
+                                        style={{ marginTop: "4px" }}
+                                        title='Delete the comment'
+                                        onClick={(e) =>
+                                          deleteComment(comment.id)
+                                        }
+                                        to={`/questions/${post.slug}`}
+                                      >
+                                        delete
+                                      </Link>
+                                    )}
+                                </div>
+                              </li>
+                            ))}
                         </ul>
                       </div>
                       <div className='add-comment'>
                         {!auth.loading && auth.isAuthenticated ? (
                           <Fragment>
-                            <form
-                              className='comment-form'
-                            >
+                            <form className='comment-form'>
                               <div>
                                 <input
                                   className='title-input s-input'
@@ -246,7 +269,9 @@ const Post = ({ match }) => {
                                   name='body'
                                   value={body}
                                   onChange={onChange}
-                                  onKeyDown={(e) => { e.key === 'Enter' && onSubmitComment(e) }}
+                                  onKeyDown={(e) => {
+                                    e.key === "Enter" && onSubmitComment(e);
+                                  }}
                                   id='title'
                                   placeholder='add comment'
                                 />
@@ -421,7 +446,10 @@ const Post = ({ match }) => {
                               placeholder='Enter body with minimum 30 characters'
                               id='text'
                             ></textarea>
-                            <button className='s-btn s-btn__primary' type="submit">
+                            <button
+                              className='s-btn s-btn__primary'
+                              type='submit'
+                            >
                               Post Your Answer
                             </button>
                           </div>
@@ -451,6 +479,5 @@ const Post = ({ match }) => {
     </div>
   );
 };
-
 
 export default Post;

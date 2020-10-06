@@ -12,7 +12,7 @@ const PostItem = ({
     title,
     slug,
     body,
-    tagname,
+    tags,
     user,
     user_id,
     answers_count,
@@ -23,8 +23,9 @@ const PostItem = ({
     // comment_count,
   },
 }) => {
-  const tags = ["javascript", "css", "html"];
-  tagname = tagname ? tagname : tags[Math.floor(Math.random() * 3)];
+  tags = tags ? tags : ["javascript", "css", "html"];
+
+  // const tagname = tags[Math.floor(Math.random() * 3)];
   vote_count = vote_count ? vote_count : 0;
 
   const answerVoteUp = (
@@ -48,11 +49,10 @@ const PostItem = ({
           <div className='vote'>
             <span className='vote-count'>{vote_count}</span>
             <div className='count-text'>votes</div>
-            {/* <div className='count-text'>comments</div> */}
           </div>
           {answers_count > 0 ? answerVoteUp : answerVoteDown}
           <div className='vote'>
-            <span className='vote-count'>{tagname ? 1 : 0}</span>
+            <span className='vote-count'>{tags.length}</span>
             <div className='count-text'>tags</div>
           </div>
         </div>
@@ -61,11 +61,22 @@ const PostItem = ({
         <h3>
           <Link to={`/questions/${slug}`}>{title}</Link>
         </h3>
-        <div className='brief'>{body.substring(0, 200)}...</div>
+
+        {/* <div className='brief'>{body.substring(0, 200)}...</div> */}
+        <p
+          className='brief'
+          dangerouslySetInnerHTML={{ __html: body.substring(0, 200) + "..." }}
+        />
+
         <div className='question-tags'>
-          <Link className='s-tag' to={`/tags/${tagname}`}>
-            {tagname}
-          </Link>
+          {tags &&
+            tags.map((tag, index) => (
+              <div className='tag-cell' key={index}>
+                <Link className='s-tag' to={`/tags/${tag.tagname}`}>
+                  {tag.tagname}
+                </Link>
+              </div>
+            ))}
         </div>
         <div className='question-user'>
           <div className='user-info'>
@@ -95,6 +106,4 @@ const PostItem = ({
 // PostItem.propTypes = {
 //     post: PropTypes.object.isRequired
 // };
-
-// export default connect(null)(PostItem);
 export default PostItem;

@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import AlertState from "./context/alert/AlertState";
 import AuthState from "./context/auth/AuthState";
 import PostsState from "./context/posts/PostsState";
+import TagsState from "./context/tags/TagsState";
 import AnswersState from "./context/answers/AnswersState";
 import CommentState from "./context/comments/CommentsState";
 import UserState from "./context/users/UsersState";
@@ -29,35 +30,45 @@ function App() {
     <AlertState>
       <AuthState>
         <PostsState>
-          <AnswersState>
-            <JobsState>
-              <CommentState>
-                <UserState>
-                  <div className='App'>
-                    <Header />
-                    <Alert />
-                    <Switch>
-                      <Route exact path='/' component={HomePage} />
-                      <Route
-                        exact
-                        path='/questions'
-                        component={QuestionsPage}
-                      />
-                      <Route exact path='/login' component={Login} />
-                      <Route exact path='/register' component={Register} />
-                      <Route exact path='/add/question' component={PostForm} />
-                      <Route exact path='/tags' component={TagsPage} />
-                      <Route exact path='/users' component={UsersPage} />
-                      <Route exact path='/questions/:slug' component={Post} />
-                      <Route exact path='/users/:id' component={UserPage} />
-                      <Route exact path='/tags/:tagname' component={TagPage} />
-                      <Route exact path='/jobs' component={Jobs} />
-                    </Switch>
-                  </div>
-                </UserState>
-              </CommentState>
-            </JobsState>
-          </AnswersState>
+          <TagsState>
+            <AnswersState>
+              <JobsState>
+                <CommentState>
+                  <UserState>
+                    <div className='App'>
+                      <Header />
+                      <Alert />
+                      <Switch>
+                        <Route exact path='/' component={HomePage} />
+                        <Route
+                          exact
+                          path='/questions'
+                          component={QuestionsPage}
+                        />
+                        <Route exact path='/login' component={Login} />
+                        <Route exact path='/register' component={Register} />
+                        <Route
+                          exact
+                          path='/add/question'
+                          component={PostForm}
+                        />
+                        <Route exact path='/tags' component={TagsPage} />
+                        <Route exact path='/users' component={UsersPage} />
+                        <Route exact path='/questions/:slug' component={Post} />
+                        <Route exact path='/users/:id' component={UserPage} />
+                        <Route
+                          exact
+                          path='/tags/:tagname'
+                          component={TagPage}
+                        />
+                        <Route exact path='/jobs' component={Jobs} />
+                      </Switch>
+                    </div>
+                  </UserState>
+                </CommentState>
+              </JobsState>
+            </AnswersState>
+          </TagsState>
         </PostsState>
       </AuthState>
     </AlertState>

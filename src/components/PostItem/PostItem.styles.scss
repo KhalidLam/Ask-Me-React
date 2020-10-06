@@ -69,6 +69,11 @@
       color: #242729;
       line-height: 18px;
       float: left;
+
+      .tag-cell {
+        display: inline-block;
+        margin-right: 5px;
+      }
     }
 
     .question-user {

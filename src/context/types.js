@@ -36,8 +36,13 @@ export const ANSWER_ERROR = 'ANSWER_ERROR';
 export const DELETE_ANSWER = 'DELETE_ANSWER';
 export const ADD_ANSWER = 'ADD_ANSWER';
 
-
 // Jobs
 export const GET_JOBS = 'GET_JOBS';
 export const GET_JOB = 'GET_JOB';
 export const JOB_ERROR = 'JOB_ERROR';
+
+// Tags
+export const GET_TAGS = "GET_TAGS";
+export const GET_TAG_QUESTIONS = "GET_TAG_QUESTIONS";
+export const TAG_ERROR = "TAG_ERROR";
+

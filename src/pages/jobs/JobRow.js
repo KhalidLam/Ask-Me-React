@@ -13,7 +13,7 @@ const JobRow = ({ job }) => {
     job_type,
     category,
     tags,
-    description,
+    // description,
   } = job;
 
   return (
@@ -33,7 +33,7 @@ const JobRow = ({ job }) => {
         </h3>
 
         <div className='job-content'>
-          <span className='job-type'>Job type: {job_type}</span>
+          <span className='job-type'>Job type: {job_type.split("_").join(" ")}</span>
 
           <span className='job-from'>
             Hiring from: {candidate_required_location}
